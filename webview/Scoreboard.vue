@@ -26,9 +26,10 @@ import { ScoreboardEvents } from '../shared/events';
 import { defaultConfig, Jobs } from '../shared/config';
 import { currentPlayerStats, Job, stats } from '../shared/interface';
 import { usePlayerStats } from '@Composables/usePlayerStats';
-import { playerId } from 'natives';
 
+import '../translate/index';
 const Events = useEvents();
+
 const isScoreboardVisible = ref(false);
 const playerInfo = ref<currentPlayerStats>({
     playerId: 0,

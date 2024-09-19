@@ -25,7 +25,7 @@
                 >
                     <div>
                         <span :class="['text-xs uppercase', ping >= 60 ? 'text-[#FFA500]' : 'text-[#00B1FF]']">
-                            PING
+                            {{ t('scoreboard.player.ping') }}
                         </span>
                     </div>
                     <span :class="['text-sm', ping >= 60 ? 'text-[#FFA500]' : 'text-[#00B1FF]']"> {{ ping }} ms </span>
@@ -40,7 +40,9 @@
 
 <script setup lang="ts">
 const design = './images/icons/Rectangle_35.svg';
-
+import { useTranslate } from '@Shared/translate';
+import { defaultConfig } from '../../../shared/config';
+const { t } = useTranslate(defaultConfig.language);
 interface Props {
     id: number;
     name: string;

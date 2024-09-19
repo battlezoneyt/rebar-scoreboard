@@ -7,7 +7,7 @@ import { ScoreboardEvents } from '../shared/events.js';
 import { defaultConfig } from '../shared/config.js';
 import { currentPlayerStats, stats } from '../shared/interface.js';
 
-const { t } = useTranslate('en');
+const { t } = useTranslate(defaultConfig.language);
 
 const Rebar = useRebar();
 const api = Rebar.useApi();
@@ -53,7 +53,7 @@ async function handleScoreboardCreated(player: alt.Player) {
 
     const currentPlayerStats = allPlayerStats[data.id];
     if (!currentPlayerStats) {
-        console.error(`Player stats not found for player ID: ${data.id}`);
+        console.error(t('scoreboard.character.nofound'));
         return;
     }
 

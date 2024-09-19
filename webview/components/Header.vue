@@ -4,7 +4,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <h1 class="text-2xl font-bold uppercase tracking-wider">
-                        {{ defaultConfig.serverName ? defaultConfig.serverName : 'Loading...' }}
+                        {{ defaultConfig.serverName ? defaultConfig.serverName : t('scoreboard.servername.nofound') }}
                     </h1>
                 </div>
                 <div>
@@ -14,7 +14,7 @@
                                 type="text"
                                 v-model="searchQuery"
                                 class="header-search-bg block rounded-lg border-none p-2 text-white outline-none"
-                                placeholder="Search Player"
+                                :placeholder="t('scoreboard.search.player.label')"
                             />
                         </div>
                     </div>
@@ -30,17 +30,17 @@
 
                             <div>
                                 <span class="text-xl font-bold uppercase">
-                                    {{ props.myName ? props.myName : 'Unknown' }}
+                                    {{ props.myName ? props.myName : t('scoreboard.player.name.unknown') }}
                                 </span>
                             </div>
                         </div>
                         <div class="flex items-center gap-x-1">
                             <div>
-                                <span class="text-gray-500">JOB: </span>
+                                <span class="text-gray-500">{{ t('scoreboard.player.job.label') }} </span>
                             </div>
                             <div>
                                 <span class="text-ctm_text1 mr-2 font-bold uppercase">
-                                    {{ props.myJob ? props.myJob : 'Unemployed' }}
+                                    {{ props.myJob ? props.myJob : t('scoreboard.player.job.unemployed') }}
                                 </span>
                             </div>
                             <div class="flex items-center gap-x-1">
@@ -62,18 +62,34 @@
             </div>
         </div>
         <div class="mt-0.5 bg-gradient-to-r from-[#112d39] to-[#2b2c30] px-7 py-4">
-            <JobList :serverslots="defaultConfig.maxPlayers" :Activecounts="props.playersOnline" :jobs="props.jobs" />
+            <JobList :jobs="props.jobs" />
         </div>
-        <div
-            v-if="!defaultConfig.disablePlayerList"
-            class="mt-0.5 bg-gradient-to-r from-[#16242F] to-[#1E2223] px-7 py-4"
-        >
-            <div>
-                <span class="uppercase tracking-wider text-gray-50">Player Lists</span>
+        <div class="mt-0.5 bg-gradient-to-r from-[#16242F] to-[#1E2223] px-7 py-4">
+            <div class="flex items-center justify-between text-lg">
+                <span v-if="!defaultConfig.disablePlayerList" class="uppercase tracking-wider text-gray-50">{{
+                    t('scoreboard.player.playerlist')
+                }}</span>
+                <span v-else="defaultConfig.disablePlayerList" class="uppercase tracking-wider text-gray-50">{{
+                    t('scoreboard.player.total.online')
+                }}</span>
+                <div class="flex items-center gap-x-2">
+                    <h1 class="text-xl uppercase text-[#8E8F91]">{{ t('scoreboard.player.playercounts') }}</h1>
+                    <div>
+                        <span class="flex gap-x-1">
+                            <img :src="dotbox" alt="dotbox" class="w-4" />
+                            <span class="uppercase text-white">
+                                {{ props.playersOnline }}/{{ defaultConfig.maxPlayers }}
+                                {{ t('scoreboard.player.players.online') }}
+                            </span>
+                        </span>
+                    </div>
+                </div>
             </div>
-            <main class="mt-3">
+            <main class="mt-3" v-if="!defaultConfig.disablePlayerList">
                 <div class="font-Roboto flex max-h-[700px] flex-wrap gap-3 overflow-y-scroll">
-                    <div v-if="filteredPlayers.length === 0" class="text-gray-400">No players found....</div>
+                    <div v-if="filteredPlayers.length === 0" class="text-gray-400">
+                        {{ t('scoreboard.player.Noplayerlist') }}
+                    </div>
                     <PlayerItem
                         v-for="(player, index) in filteredPlayers"
                         :key="index"
@@ -97,8 +113,12 @@ import FaUserAstronaut from '../icons/FaUserAstronaut.vue';
 import JobList from './jobs/JobList.vue';
 import { currentPlayerStats, Job } from '../../shared/interface';
 import { defaultConfig } from '../../shared/config';
+import dotbox from '../icons/dotbox.svg';
 
 const searchQuery = ref('');
+import { useTranslate } from '@Shared/translate';
+
+const { t } = useTranslate(defaultConfig.language);
 
 interface Props {
     myId: number;

@@ -13,7 +13,7 @@
 
                 <div class="flex items-center gap-x-1">
                     <h3 class="text-sm uppercase text-white">{{ props.count }}</h3>
-                    <span class="text-sm uppercase text-white">ONLINE</span>
+                    <span class="text-sm uppercase text-white">{{ t('scoreboard.player.players.online') }}</span>
                 </div>
             </div>
         </div>
@@ -23,6 +23,9 @@
 <script setup lang="ts">
 import dotbox from '../../icons/dotbox.svg';
 import reddotbox from '../../icons/reddot.svg';
+import { useTranslate } from '@Shared/translate';
+import { defaultConfig } from '../../../shared/config';
+const { t } = useTranslate(defaultConfig.language);
 
 interface Props {
     name: string;

@@ -2,7 +2,6 @@ import { Job } from './interface.js';
 
 export const defaultConfig = {
     debugMode: true,
-    DefaultLocale: 'en',
     RegisterCommandName: 'scoreboard',
     MetaItem: false,
     Enable: true,
@@ -13,6 +12,7 @@ export const defaultConfig = {
     onlinePlayersInterval: 6000,
     maxPlayers: 120,
     serverName: 'SERVER NAME',
+    language: 'en',
 };
 
 export const Jobs: Job[] = [
