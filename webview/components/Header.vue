@@ -72,20 +72,17 @@
                 <span class="uppercase tracking-wider text-gray-50">Player Lists</span>
             </div>
             <main class="mt-3">
-                <div>
-                    <div class="font-Roboto grid max-h-[700px] grid-cols-3 items-center gap-3 overflow-y-scroll">
-                        <div v-if="filteredPlayers.length === 0" class="text-gray-400">No players found....</div>
-                        <div v-else>
-                            <PlayerItem
-                                v-for="(player, index) in filteredPlayers"
-                                :key="index"
-                                :id="player.playerId"
-                                :name="player.playerName"
-                                :job="player.playerFaction"
-                                :ping="player.playerPing"
-                            />
-                        </div>
-                    </div>
+                <div class="font-Roboto flex max-h-[700px] flex-wrap gap-3 overflow-y-scroll">
+                    <div v-if="filteredPlayers.length === 0" class="text-gray-400">No players found....</div>
+                    <PlayerItem
+                        v-for="(player, index) in filteredPlayers"
+                        :key="index"
+                        :id="player.playerId"
+                        :name="player.playerName"
+                        :job="player.playerFaction"
+                        :ping="player.playerPing"
+                        class="box-border w-[475px] flex-none"
+                    />
                 </div>
             </main>
         </div>

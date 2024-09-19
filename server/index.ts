@@ -15,7 +15,6 @@ const Keybinder = Rebar.useKeybinder();
 const RebarEvents = Rebar.events.useEvents();
 let interval;
 const allPlayerStats: { [key: number]: currentPlayerStats } = {};
-// const allPlayerStats: Map<number, currentPlayerStats> = new Map<number, currentPlayerStats>();
 
 class InternalFunctions {
     static update(playerStats: currentPlayerStats) {
@@ -73,6 +72,8 @@ async function handleScoreboardCreated(player: alt.Player) {
 }
 
 async function handleCharacterCreated(player: alt.Player) {
+    const rebarPlayer = Rebar.usePlayer(player);
+    if (!rebarPlayer.status.hasCharacter()) return;
     try {
         const character = Rebar.document.character.useCharacter(player);
         const data = character.get();

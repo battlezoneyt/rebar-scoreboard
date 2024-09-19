@@ -26,6 +26,7 @@ import { ScoreboardEvents } from '../shared/events';
 import { defaultConfig, Jobs } from '../shared/config';
 import { currentPlayerStats, Job, stats } from '../shared/interface';
 import { usePlayerStats } from '@Composables/usePlayerStats';
+import { playerId } from 'natives';
 
 const Events = useEvents();
 const isScoreboardVisible = ref(false);
@@ -96,6 +97,39 @@ function updateDetails(data: currentPlayerStats[]) {
 const enableDebugMode = () => {
     if (defaultConfig.debugMode) {
         isScoreboardVisible.value = true;
+        playersList.value = [
+            {
+                playerId: 1,
+                playerName: 'Sunni Khanth',
+                playerFaction: 'police',
+                playerRole: '',
+                playerPing: 55,
+            },
+            {
+                playerId: 12,
+                playerName: 'Khanth Sunni',
+                playerFaction: 'police',
+                playerRole: '',
+                playerPing: 555,
+            },
+            {
+                playerId: 13,
+                playerName: 'Punda Mavan',
+                playerFaction: 'ambulance',
+                playerRole: '',
+                playerPing: 5,
+            },
+            {
+                playerId: 15,
+                playerName: 'Punda Madddn',
+                playerFaction: 'taxi',
+                playerRole: '',
+                playerPing: 5,
+            },
+        ];
+
+        updateDetails(playersList.value);
+        playersOnline.value = playersList.value.length;
     }
 };
 
