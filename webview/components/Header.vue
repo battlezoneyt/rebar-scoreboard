@@ -107,7 +107,7 @@
 
 <script setup lang="ts">
 import { ref, watch, onMounted, computed } from 'vue';
-import PlayerItem from '../components/players/PlayerGrid.vue';
+import PlayerItem from './players/PlayerGrid.vue';
 import GiAerialSignal from '../icons/GiAerialSingnal.vue';
 import FaUserAstronaut from '../icons/FaUserAstronaut.vue';
 import JobList from './jobs/JobList.vue';

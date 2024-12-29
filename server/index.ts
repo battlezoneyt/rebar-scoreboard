@@ -12,7 +12,6 @@ const { t } = useTranslate(defaultConfig.language);
 const Rebar = useRebar();
 const api = Rebar.useApi();
 const Keybinder = Rebar.useKeybinder();
-const RebarEvents = Rebar.events.useEvents();
 let interval;
 const allPlayerStats: { [key: number]: currentPlayerStats } = {};
 
@@ -62,6 +61,7 @@ async function handleScoreboardCreated(player: alt.Player) {
             playerId: currentPlayerStats.playerId,
             playerName: currentPlayerStats.playerName,
             playerFaction: currentPlayerStats.playerFaction,
+            playerDuty: currentPlayerStats.playerDuty,
             playerRole: currentPlayerStats.playerRole,
             playerPing: currentPlayerStats.playerPing,
         },
@@ -80,17 +80,20 @@ async function handleCharacterCreated(player: alt.Player) {
         if (!data) {
             throw new Error('Character data is undefined');
         }
-        const permission = Rebar.permission.usePermission(player);
-        const isAdmin = permission.has('account', 'admin');
+        const permission = Rebar.permissions.usePermissions(player);
+        const isAdmin = permission.account.permissions.has('admin');
         let playerFactionName;
+        let playerDuty;
         if (data.faction) {
-            const { findFactionById } = await api.getAsync('faction-handlers-api');
-            playerFactionName = await findFactionById(data.faction);
+            const factionAPI = await api.getAsync('rebar-faction-api');
+            playerFactionName = factionAPI.factionHandlers.findFactionById(data.faction);
+            playerDuty = await factionAPI.dutyHandlers.getDuty(data.faction, data.id);
         }
         const currentPlayerStats: currentPlayerStats = {
             playerId: data.id,
             playerName: data.name,
             playerFaction: data.faction ? playerFactionName.factionName : 'Unemployed',
+            playerDuty: playerDuty ? playerDuty : false,
             playerRole: isAdmin ? 'ADMIN' : 'PLAYER',
             playerPing: player.ping,
         };
@@ -104,7 +107,8 @@ async function handleCharacterCreated(player: alt.Player) {
 
 async function handleDisconnect(player: alt.Player) {
     const character = Rebar.document.character.useCharacter(player);
-    const data = character.get();
+    const data = await character.get();
+    if (!character || !data) return;
     delete allPlayerStats[data.id];
 }
 
@@ -114,7 +118,7 @@ alt.onClient(ScoreboardEvents.toServer.hideScoreboard, (player: alt.Player) => {
     Rebar.player.useWorld(player).enableControls();
 });
 
-RebarEvents.on('character-bound', (player, document) => {
+alt.on('rebar:playerCharacterBound', (player, document) => {
     handleCharacterCreated(player);
 });
 

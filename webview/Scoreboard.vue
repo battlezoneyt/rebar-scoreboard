@@ -37,6 +37,7 @@ const playerInfo = ref<currentPlayerStats>({
     playerFaction: '',
     playerRole: '',
     playerPing: 0,
+    playerDuty: false,
 });
 const playersOnline = ref(0);
 const playersList = ref<currentPlayerStats[]>();
@@ -67,6 +68,7 @@ const init = () => {
             playerId: data.playerStats.playerId,
             playerName: data.playerStats.playerName,
             playerFaction: data.playerStats.playerFaction,
+            playerDuty: data.playerStats.playerDuty,
             playerRole: data.playerStats.playerRole,
             playerPing: data.playerStats.playerPing,
         };
@@ -87,7 +89,9 @@ function updateDetails(data: currentPlayerStats[]) {
     });
 
     data.forEach((player) => {
-        const matchingJob = jobs.value.find((job) => job.name.toLowerCase() === player.playerFaction.toLowerCase());
+        const matchingJob = jobs.value.find(
+            (job) => job.name.toLowerCase() === player.playerFaction.toLowerCase() && player.playerDuty,
+        );
         if (matchingJob) {
             matchingJob.count++;
         }
@@ -103,6 +107,7 @@ const enableDebugMode = () => {
                 playerId: 1,
                 playerName: 'Sunni Khanth',
                 playerFaction: 'police',
+                playerDuty: true,
                 playerRole: '',
                 playerPing: 55,
             },
@@ -110,6 +115,7 @@ const enableDebugMode = () => {
                 playerId: 12,
                 playerName: 'Khanth Sunni',
                 playerFaction: 'police',
+                playerDuty: true,
                 playerRole: '',
                 playerPing: 555,
             },
@@ -117,13 +123,15 @@ const enableDebugMode = () => {
                 playerId: 13,
                 playerName: 'Punda Mavan',
                 playerFaction: 'ambulance',
+                playerDuty: true,
                 playerRole: '',
                 playerPing: 5,
             },
             {
                 playerId: 15,
                 playerName: 'Punda Madddn',
-                playerFaction: 'taxi',
+                playerDuty: false,
+                playerFaction: '',
                 playerRole: '',
                 playerPing: 5,
             },

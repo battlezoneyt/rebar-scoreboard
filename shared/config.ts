@@ -1,7 +1,7 @@
 import { Job } from './interface.js';
 
 export const defaultConfig = {
-    debugMode: true,
+    debugMode: false,
     RegisterCommandName: 'scoreboard',
     MetaItem: false,
     Enable: true,

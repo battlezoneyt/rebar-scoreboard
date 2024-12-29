@@ -9,6 +9,7 @@ export interface currentPlayerStats {
     playerId: number;
     playerName: string;
     playerFaction: string;
+    playerDuty: boolean;
     playerRole: string;
     playerPing: number;
 }
